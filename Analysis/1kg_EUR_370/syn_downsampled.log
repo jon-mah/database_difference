@@ -1,0 +1,17 @@
+2025-01-31 15:12:53,502 - INFO - Beginning execution of downsample_sfs.py in directory /u/scratch/j/jonmah/sample_size_demography/Scripts
+
+2025-01-31 15:12:53,502 - INFO - Progress is being logged to ../Analysis/1kg_EUR_370/syn_downsampled.log
+
+2025-01-31 15:12:53,502 - INFO - Parsed the following arguments:
+	input_sfs = ../Data/kim_et_al_2017_1kg_syn.txt
+	sample_size = 370
+	outprefix = ../Analysis/1kg_EUR_370/syn
+
+2025-01-31 15:12:53,502 - INFO - Parsing input SFS.
+2025-01-31 15:12:53,510 - INFO - Formatting output SFS.
+2025-01-31 15:12:53,683 - INFO - Calculating summary statistics.
+2025-01-31 15:12:53,684 - INFO - Watterson's Theta: 5160.842735341529
+2025-01-31 15:12:53,684 - INFO - Heterozygosity: 5408.823706222281
+2025-01-31 15:12:53,685 - INFO - Tajima's D: 0.14936170182990086
+2025-01-31 15:12:53,691 - INFO - Finished downsampling.
+2025-01-31 15:12:53,692 - INFO - Pipeline executed succesfully.

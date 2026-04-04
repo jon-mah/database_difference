@@ -1,0 +1,17 @@
+2025-01-16 18:39:32,789 - INFO - Beginning execution of downsample_sfs.py in directory /u/project/kirk/jonmah/sample_size_demography/Scripts
+
+2025-01-16 18:39:32,789 - INFO - Progress is being logged to ../Analysis/gnomAD_590/syn_downsampled.log
+
+2025-01-16 18:39:32,789 - INFO - Parsed the following arguments:
+	input_sfs = ../Data/gnomAD_empirical_syn_sfs.txt
+	sample_size = 590
+	outprefix = ../Analysis/gnomAD_590/syn
+
+2025-01-16 18:39:32,789 - INFO - Parsing input SFS.
+2025-01-16 18:39:33,077 - INFO - Formatting output SFS.
+2025-01-16 18:41:39,493 - INFO - Calculating summary statistics.
+2025-01-16 18:41:39,495 - INFO - Watterson's Theta: 8143.254315360955
+2025-01-16 18:41:39,496 - INFO - Heterozygosity: 5453.626595376493
+2025-01-16 18:41:39,496 - INFO - Tajima's D: -1.0003366085133505
+2025-01-16 18:41:39,520 - INFO - Finished downsampling.
+2025-01-16 18:41:39,520 - INFO - Pipeline executed succesfully.

@@ -1,0 +1,12 @@
+Best fit parameters: [0.1907885  0.81365875 0.1058581  0.12285812].
+Maximum multinomial log composite likelihood: -24.51354971962519.
+Maximum poisson log composite likelihood: -24.51354971962519.
+Non-scaled best-fit model spectrum: [-- 0.7082581946960567 0.3969991230641807 0.32384193268833983 0.3001309921310278 0.1470991588084833 -- -- -- -- --].
+Optimal value of theta_syn: 8078.814086194417.
+Optimal value of theta_nonsyn: 17288.66214445605.
+Empirical synonymous sfs: [-- 5737.81700602495 3199.985477630594 2632.992872172611 2412.705650023295 1175.015392423377 -- -- -- -- --].
+Scaled best-fit model spectrum: [-- 5721.8862799731305 3207.282107617734 2616.258767502984 2424.702486931653 1188.3867562493242 -- -- -- -- --].
+Estimate for bottleneck length in generations is 3797.889114626477 generations.
+Estimate for time since bottleneck in generations is 4407.802022301419 generations.
+Estimate for total time in generations is 8205.691136927897.
+Estimate for ancestral population size is 17938.58606537118.

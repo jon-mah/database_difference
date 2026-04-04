@@ -1,0 +1,9 @@
+Best fit parameters: [0.13830167].
+Maximum multinomial log composite likelihood: -38.93335997742906.
+Maximum poisson log composite likelihood: -38.93335997742906.
+Non-scaled best-fit model spectrum: [-- 1.0981964612247133 0.6197871669004245 0.4732219434882712 0.4145866302947163 0.19908255831261543 -- -- -- -- --].
+Optimal value of theta_syn: 6105.386041717383.
+Optimal value of theta_nonsyn: 13065.5261292752.
+Empirical synonymous sfs: [-- 6591.456758375652 3595.306925127469 2944.347921057027 2686.88114412409 1306.850461132865 -- -- -- -- --].
+Scaled best-fit model spectrum: [-- 6704.913345424789 3784.0399176294136 2889.2026484076628 2531.211425684006 1215.4758726712291 -- -- -- -- --].
+Estimate for ancestral population size is 1404544.4184610366.

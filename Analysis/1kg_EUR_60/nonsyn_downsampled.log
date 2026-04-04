@@ -1,0 +1,17 @@
+2025-03-06 09:49:34,521 - INFO - Beginning execution of downsample_sfs.py in directory /u/project/kirk/jonmah/sample_size_demography/Scripts
+
+2025-03-06 09:49:34,522 - INFO - Progress is being logged to ../Analysis/1kg_EUR_60/nonsyn_downsampled.log
+
+2025-03-06 09:49:34,522 - INFO - Parsed the following arguments:
+	input_sfs = ../Data/kim_et_al_2017_1kg_nonsyn.txt
+	sample_size = 60
+	outprefix = ../Analysis/1kg_EUR_60/nonsyn
+
+2025-03-06 09:49:34,522 - INFO - Parsing input SFS.
+2025-03-06 09:49:34,523 - INFO - Formatting output SFS.
+2025-03-06 09:49:34,566 - INFO - Calculating summary statistics.
+2025-03-06 09:49:34,566 - INFO - Watterson's Theta: 4730.843400344319
+2025-03-06 09:49:34,567 - INFO - Heterozygosity: 4362.991431716476
+2025-03-06 09:49:34,567 - INFO - Tajima's D: -0.2793991507038036
+2025-03-06 09:49:34,570 - INFO - Finished downsampling.
+2025-03-06 09:49:34,570 - INFO - Pipeline executed succesfully.
