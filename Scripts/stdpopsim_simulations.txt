@@ -1,0 +1,1 @@
+stdpopsim HomSap -L 1000000 -o ../Simulations/ooa_864.trees -s 1 -d OutOfAfrica_2T12 EUR:864

@@ -1,0 +1,861 @@
+# generate_figures.R
+# Author: Jon Mah
+# Date last updated: 20240319
+
+setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
+source('useful_functions.R')
+source('ThreeEpochContraction_figures.R')
+source('ThreeEpochExpansion_figures.R')
+source('TwoEpochContraction_figures.R')
+source('TwoEpochExpansion_figures.R')
+
+### Figure 1 is a summarizing schematic
+
+### Figure 2 Singleton proportion
+
+# Simple simulations
+two_EpC_singletons = c()
+two_EpE_singletons = c()
+three_EpB_singletons = c()
+three_EpC_singletons = c()
+three_EpE_singletons = c()
+one_epoch_singletons = c()
+sim_ooa_singletons = c()
+EUR_1kg_singletons = c()
+gnomAD_singletons = c()
+two_EpC_doubletons = c()
+two_EpE_doubletons = c()
+three_EpB_doubletons = c()
+three_EpC_doubletons = c()
+three_EpE_doubletons = c()
+one_epoch_doubletons = c()
+sim_ooa_doubletons = c()
+EUR_1kg_doubletons = c()
+gnomAD_doubletons = c()
+
+# Loop through subdirectories and get relevant files
+for (i in seq(10, 200, 10)) {
+  two_EpC_subdirectory <- paste0("../Analysis/TwoEpochContraction_", i)
+  two_EpE_subdirectory <- paste0("../Analysis/TwoEpochExpansion_", i)
+  three_EpB_subdirectory <- paste0("../Analysis/ThreeEpochBottleneck_", i)
+  three_EpC_subdirectory <- paste0("../Analysis/ThreeEpochContraction_", i)
+  three_EpE_subdirectory <- paste0("../Analysis/ThreeEpochExpansion_", i)
+  sim_ooa_subdirectory <- paste0("../Analysis/ooa_simulated_", i)
+  EUR_1kg_subdirectory <- paste0("../Analysis/1kg_EUR_", i)
+  gnomAD_subdirectory <- paste0("../Analysis/gnomAD_", i)
+  two_EpC_empirical_file_path = file.path(two_EpC_subdirectory, "syn_downsampled_sfs.txt")
+  one_epoch_empirical_file_path = file.path(two_EpC_subdirectory, "one_epoch_demography.txt")
+  two_EpE_empirical_file_path = file.path(two_EpE_subdirectory, "syn_downsampled_sfs.txt")
+  three_EpB_empirical_file_path = file.path(three_EpB_subdirectory, "syn_downsampled_sfs.txt")
+  three_EpC_empirical_file_path = file.path(three_EpC_subdirectory, "syn_downsampled_sfs.txt")
+  three_EpE_empirical_file_path = file.path(three_EpE_subdirectory, "syn_downsampled_sfs.txt")
+  sim_ooa_empirical_file_path = file.path(sim_ooa_subdirectory, "syn_downsampled_sfs.txt")
+  EUR_1kg_empirical_file_path = file.path(EUR_1kg_subdirectory, "syn_downsampled_sfs.txt")
+  gnomAD_file_path = file.path(gnomAD_subdirectory, "syn_downsampled_sfs.txt")
+
+  if (file.exists(two_EpC_empirical_file_path)) {
+    this_SFS = proportional_sfs(read_input_sfs(two_EpC_empirical_file_path))
+    two_EpC_singletons = c(two_EpC_singletons, this_SFS[1])
+    two_EpC_doubletons = c(two_EpC_doubletons, this_SFS[2])
+    one_epoch_SFS = proportional_sfs(sfs_from_demography(one_epoch_empirical_file_path))
+    one_epoch_singletons = c(one_epoch_singletons, one_epoch_SFS[1])
+    one_epoch_doubletons = c(one_epoch_doubletons, one_epoch_SFS[2])
+  }
+  if (file.exists(two_EpE_empirical_file_path)) {
+    this_SFS = proportional_sfs(read_input_sfs(two_EpE_empirical_file_path))
+    two_EpE_singletons = c(two_EpE_singletons, this_SFS[1])
+    two_EpE_doubletons = c(two_EpE_doubletons, this_SFS[2])
+  }
+  if (file.exists(three_EpB_empirical_file_path)) {
+    this_SFS = proportional_sfs(read_input_sfs(three_EpB_empirical_file_path))
+    three_EpB_singletons = c(three_EpB_singletons, this_SFS[1])
+    three_EpB_doubletons = c(three_EpB_doubletons, this_SFS[2])
+  }
+  if (file.exists(three_EpC_empirical_file_path)) {
+    this_SFS = proportional_sfs(read_input_sfs(three_EpC_empirical_file_path))
+    three_EpC_singletons = c(three_EpC_singletons, this_SFS[1])
+    three_EpC_doubletons = c(three_EpC_doubletons, this_SFS[2])
+  }
+  if (file.exists(three_EpE_empirical_file_path)) {
+    this_SFS = proportional_sfs(read_input_sfs(three_EpE_empirical_file_path))
+    three_EpE_singletons = c(three_EpE_singletons, this_SFS[1])
+    three_EpE_doubletons = c(three_EpE_doubletons, this_SFS[2])
+  }
+  if (file.exists(sim_ooa_empirical_file_path)) {
+    this_SFS = proportional_sfs(read_input_sfs(sim_ooa_empirical_file_path))
+    sim_ooa_singletons = c(sim_ooa_singletons, this_SFS[1])
+    sim_ooa_doubletons = c(sim_ooa_doubletons, this_SFS[2])
+  }
+  if (file.exists(EUR_1kg_empirical_file_path)) {
+    this_SFS = proportional_sfs(read_input_sfs(EUR_1kg_empirical_file_path))
+    EUR_1kg_singletons = c(EUR_1kg_singletons, this_SFS[1])
+    EUR_1kg_doubletons = c(EUR_1kg_doubletons, this_SFS[2])
+  }
+  if (file.exists(gnomAD_file_path)) {
+    this_SFS = proportional_sfs(read_input_sfs(gnomAD_file_path))
+    gnomAD_singletons = c(gnomAD_singletons, this_SFS[1])
+    gnomAD_doubletons = c(gnomAD_doubletons, this_SFS[2])
+  }
+}
+
+sample_size = seq(10, 200, 10)
+
+
+singletons_df = data.frame(
+  "Sample size" = sample_size,
+  "Two Epoch Contraction" = two_EpC_singletons,
+  "Two Epoch Expansion" = two_EpE_singletons,
+  "Three Epoch Bottleneck" = three_EpB_singletons,
+  "Three Epoch Contraction" = three_EpC_singletons,
+  "Three Epoch Expansion" = three_EpE_singletons,
+  "Neural Demography" = one_epoch_singletons,
+  "Simulated OOA" = sim_ooa_singletons,
+  "1KG EUR" = EUR_1kg_singletons,
+  "gnomAD" = gnomAD_singletons)
+
+doubletons_df = data.frame(
+  "Sample size" = sample_size,
+  "Two Epoch Contraction" = two_EpC_doubletons,
+  "Two Epoch Expansion" = two_EpE_doubletons,
+  "Three Epoch Bottleneck" = three_EpB_doubletons,
+  "Three Epoch Contraction" = three_EpC_doubletons,
+  "Three Epoch Expansion" = three_EpE_doubletons,
+  "Neural Demography" = one_epoch_doubletons,
+  "Simulated OOA" = sim_ooa_doubletons,
+  "1KG EUR" = EUR_1kg_doubletons,
+  "gnomAD" = gnomAD_doubletons)
+
+single_plus_doubletons_df = data.frame(
+  "Sample size" = sample_size,
+  "Two Epoch Contraction" = two_EpC_singletons + two_EpC_doubletons,
+  "Two Epoch Expansion" = two_EpE_singletons + two_EpE_doubletons,
+  "Three Epoch Bottleneck" = three_EpB_singletons + three_EpB_doubletons,
+  "Three Epoch Contraction" = three_EpC_singletons + three_EpC_doubletons,
+  "Three Epoch Expansion" = three_EpE_singletons + three_EpE_doubletons,
+  "Neural Demography" = one_epoch_singletons + one_epoch_doubletons,
+  "Simulated OOA" = sim_ooa_singletons + sim_ooa_doubletons,
+  "1KG EUR" = EUR_1kg_singletons + EUR_1kg_doubletons,
+  "gnomAD" = gnomAD_singletons + gnomAD_doubletons)
+
+singletons_df = melt(singletons_df, id="Sample.size")
+doubletons_df = melt(doubletons_df, id="Sample.size")
+single_plus_doubletons_df = melt(single_plus_doubletons_df, id="Sample.size")
+
+plot_singleton_proportion = ggplot(singletons_df, aes(x=Sample.size, y=value, color=variable)) +
+  geom_line(linewidth=1, aes(linetype=variable)) +
+    scale_color_manual(values=c('#d73027', '#f46d43', '#fdae61', '#fee090', '#e0f3f8', 
+    'black', '#abd9e9', '#74add1', '#4575b4'),
+    labels=c('Two Epoch Contraction', 'Two Epoch Expansion', 
+      'Three Epoch Bottleneck',
+      'Three Epoch Contraction',
+      'Three Epoch Expansion',
+      'Neutral Demography',
+      'Tennessen et al.',
+      '1000Genomes',
+      'gnomAD'),
+    name='Simulated or empirical demography') +
+  scale_linetype_manual(values=c('dashed', 'dashed', 'dashed', 'dashed', 'dashed', 'dashed', 'dashed', 'solid', 'solid')) +
+  theme_bw() +
+  guides(linetype = 'none') +
+  guides(linewidth = 'none') +
+  xlab('Sample size') +
+  ylab('Singleton proportion') +
+  ggtitle('Proportion of SFS comprised of singletons')
+
+plot_singleton_proportion
+
+plot_doubleton_proportion = ggplot(doubletons_df, aes(x=Sample.size, y=value, color=variable)) +
+  geom_line(linewidth=1, aes(linetype=variable)) +
+    scale_color_manual(values=c('#d73027', '#f46d43', '#fdae61', '#fee090', '#e0f3f8', 
+    'black', '#abd9e9', '#74add1', '#4575b4'),
+    labels=c('Two Epoch Contraction', 'Two Epoch Expansion', 
+      'Three Epoch Bottleneck',
+      'Three Epoch Contraction',
+      'Three Epoch Expansion',
+      'Neutral Demography',
+      'Tennessen et al.',
+      '1000Genomes',
+      'gnomAD'),
+    name='Simulated or empirical demography') +
+  scale_linetype_manual(values=c('dashed', 'dashed', 'dashed', 'dashed', 'dashed', 'dashed', 'dashed', 'solid', 'solid')) +
+  theme_bw() +
+  guides(linetype = 'none') +
+  guides(linewidth = 'none') +
+  xlab('Sample size') +
+  ylab('Doubleton proportion') +
+  ggtitle('Proportion of SFS comprised of singletons')
+
+plot_doubleton_proportion
+
+plot_single_plus_doubleton_proportion = ggplot(single_plus_doubletons_df, aes(x=Sample.size, y=value, color=variable)) +
+  geom_line(linewidth=1, aes(linetype=variable)) +
+    scale_color_manual(values=c('#d73027', '#f46d43', '#fdae61', '#fee090', '#e0f3f8', 
+    'black', '#abd9e9', '#74add1', '#4575b4'),
+    labels=c('Two Epoch Contraction', 'Two Epoch Expansion', 
+      'Three Epoch Bottleneck',
+      'Three Epoch Contraction',
+      'Three Epoch Expansion',
+      'Neutral Demography',
+      'Tennessen et al.',
+      '1000Genomes',
+      'gnomAD'),
+    name='Simulated or empirical demography') +
+  scale_linetype_manual(values=c('dashed', 'dashed', 'dashed', 'dashed', 'dashed', 'dashed', 'dashed', 'solid', 'solid')) +
+  theme_bw() +
+  guides(linetype = 'none') +
+  guides(linewidth = 'none') +
+  xlab('Sample size') +
+  ylab('Singleton+doubleton proportion') +
+  ggtitle('Proportion of SFS comprised of singletons')
+
+plot_single_plus_doubleton_proportion
+
+### Figure 3 Rare variants
+
+# Simple simulations
+two_EpC_rare_variants = c()
+two_EpE_rare_variants = c()
+three_EpB_rare_variants = c()
+three_EpC_rare_variants = c()
+three_EpE_rare_variants = c()
+one_epoch_rare_variants = c()
+sim_ooa_rare_variants = c()
+EUR_1kg_rare_variants = c()
+gnomAD_rare_variants = c()
+
+
+# Loop through subdirectories and get relevant files
+for (i in seq(10, 100, 10)) {
+  two_EpC_subdirectory <- paste0("../Analysis/TwoEpochContraction_", i)
+  two_EpE_subdirectory <- paste0("../Analysis/TwoEpochExpansion_", i)
+  three_EpB_subdirectory <- paste0("../Analysis/ThreeEpochBottleneck_", i)
+  three_EpC_subdirectory <- paste0("../Analysis/ThreeEpochContraction_", i)
+  three_EpE_subdirectory <- paste0("../Analysis/ThreeEpochExpansion_", i)
+  sim_ooa_subdirectory <- paste0("../Analysis/ooa_simulated_", i)
+  EUR_1kg_subdirectory <- paste0("../Analysis/1kg_EUR_", i)
+  gnomAD_subdirectory <- paste0("../Analysis/gnomAD_", i)
+  two_EpC_empirical_file_path = file.path(two_EpC_subdirectory, "syn_downsampled_sfs.txt")
+  one_epoch_empirical_file_path = file.path(two_EpC_subdirectory, "one_epoch_demography.txt")
+  two_EpE_empirical_file_path = file.path(two_EpE_subdirectory, "syn_downsampled_sfs.txt")
+  three_EpB_empirical_file_path = file.path(three_EpB_subdirectory, "syn_downsampled_sfs.txt")
+  three_EpC_empirical_file_path = file.path(three_EpC_subdirectory, "syn_downsampled_sfs.txt")
+  three_EpE_empirical_file_path = file.path(three_EpE_subdirectory, "syn_downsampled_sfs.txt")
+  sim_ooa_empirical_file_path = file.path(sim_ooa_subdirectory, "syn_downsampled_sfs.txt")
+  EUR_1kg_empirical_file_path = file.path(EUR_1kg_subdirectory, "syn_downsampled_sfs.txt")
+  gnomAD_file_path = file.path(gnomAD_subdirectory, "syn_downsampled_sfs.txt")
+
+  if (file.exists(two_EpC_empirical_file_path)) {
+    this_SFS = proportional_sfs(read_input_sfs(two_EpC_empirical_file_path))
+    two_EpC_rare_variants = c(two_EpC_rare_variants, calculate_rare_variant_proportion(this_SFS))
+    one_epoch_SFS = proportional_sfs(sfs_from_demography(one_epoch_empirical_file_path))
+    one_epoch_rare_variants = c(one_epoch_rare_variants, calculate_rare_variant_proportion(one_epoch_SFS))
+  }
+  if (file.exists(two_EpE_empirical_file_path)) {
+    this_SFS = proportional_sfs(read_input_sfs(two_EpE_empirical_file_path))
+    two_EpE_rare_variants = c(two_EpE_rare_variants, calculate_rare_variant_proportion(this_SFS))
+  }
+  if (file.exists(three_EpB_empirical_file_path)) {
+    this_SFS = proportional_sfs(read_input_sfs(three_EpB_empirical_file_path))
+    three_EpB_rare_variants = c(three_EpB_rare_variants, calculate_rare_variant_proportion(this_SFS))
+  }
+  if (file.exists(three_EpC_empirical_file_path)) {
+    this_SFS = proportional_sfs(read_input_sfs(three_EpC_empirical_file_path))
+    three_EpC_rare_variants = c(three_EpC_rare_variants, calculate_rare_variant_proportion(this_SFS))
+  }
+  if (file.exists(three_EpE_empirical_file_path)) {
+    this_SFS = proportional_sfs(read_input_sfs(three_EpE_empirical_file_path))
+    three_EpE_rare_variants = c(three_EpE_rare_variants, calculate_rare_variant_proportion(this_SFS))
+  }
+  if (file.exists(sim_ooa_empirical_file_path)) {
+    this_SFS = proportional_sfs(read_input_sfs(sim_ooa_empirical_file_path))
+    sim_ooa_rare_variants = c(sim_ooa_rare_variants, calculate_rare_variant_proportion(this_SFS))
+  }
+  if (file.exists(EUR_1kg_empirical_file_path)) {
+    this_SFS = proportional_sfs(read_input_sfs(EUR_1kg_empirical_file_path))
+    EUR_1kg_rare_variants = c(EUR_1kg_rare_variants, calculate_rare_variant_proportion(this_SFS))
+  }
+  if (file.exists(gnomAD_file_path)) {
+    this_SFS = proportional_sfs(read_input_sfs(gnomAD_file_path))
+    gnomAD_rare_variants = c(gnomAD_rare_variants, calculate_rare_variant_proportion(this_SFS))
+  }
+}
+
+sample_size = seq(10, 100, 10)
+
+rare_variants_df = data.frame(
+  "Sample size" = sample_size,
+  "Two Epoch Contraction" = two_EpC_rare_variants,
+  "Two Epoch Expansion" = two_EpE_rare_variants,
+  "Three Epoch Bottleneck" = three_EpB_rare_variants,
+  "Three Epoch Contraction" = three_EpC_rare_variants,
+  "Three Epoch Expansion" = three_EpE_rare_variants,
+  "Neural Demography" = one_epoch_rare_variants,
+  "Simulated OOA" = sim_ooa_rare_variants,
+  "1KG EUR" = EUR_1kg_rare_variants,
+  "gnomAD" = gnomAD_rare_variants)
+
+rare_variants_df = melt(rare_variants_df, id="Sample.size")
+
+plot_rare_variants_proportion = ggplot(rare_variants_df, aes(x=Sample.size, y=value, color=variable)) +
+  geom_line(linewidth=1, aes(linetype=variable)) +
+    scale_color_manual(values=c('#d73027', '#f46d43', '#fdae61', '#fee090', '#e0f3f8', 
+    'black', '#abd9e9', '#74add1', '#4575b4'),
+    labels=c('Two Epoch Contraction', 'Two Epoch Expansion', 
+      'Three Epoch Bottleneck',
+      'Three Epoch Contraction',
+      'Three Epoch Expansion',
+      'Neutral Demography',
+      'Tennessen et al.',
+      '1000Genomes',
+      'gnomAD'),
+    name='Simulated or empirical demography') +
+  scale_linetype_manual(values=c('dashed', 'dashed', 'dashed', 'dashed', 'dashed', 'dashed', 'dashed', 'solid', 'solid')) +
+  theme_bw() +
+  guides(linetype = 'none') +
+  guides(linewidth = 'none') +
+  xlab('Sample size') +
+  ylab('Rare variant proportion') +
+  ggtitle('Proportion of SFS comprised of rare variants')
+
+plot_rare_variants_proportion
+
+
+# Simple simulations
+two_EpC_watterson_theta = c()
+two_EpE_watterson_theta = c()
+three_EpB_watterson_theta = c()
+three_EpC_watterson_theta = c()
+three_EpE_watterson_theta = c()
+sim_ooa_watterson_theta = c()
+EUR_1kg_watterson_theta = c()
+EVS_watterson_theta = c()
+two_EpC_heterozygosity = c()
+two_EpE_heterozygosity = c()
+three_EpB_heterozygosity = c()
+three_EpC_heterozygosity = c()
+three_EpE_heterozygosity = c()
+sim_ooa_heterozygosity = c()
+EUR_1kg_heterozygosity = c()
+EVS_heterozygosity = c()
+two_EpC_tajima_D = c()
+two_EpE_tajima_D = c()
+three_EpB_tajima_D = c()
+three_EpC_tajima_D = c()
+three_EpE_tajima_D = c()
+sim_ooa_tajima_D = c()
+EUR_1kg_tajima_D = c()
+EVS_tajima_D = c()
+# Loop through subdirectories and get relevant files
+for (i in seq(10, 800, 10)) {
+  two_EpC_subdirectory <- paste0("../Analysis/TwoEpochContraction_", i)
+  two_EpE_subdirectory <- paste0("../Analysis/TwoEpochExpansion_", i)
+  three_EpB_subdirectory <- paste0("../Analysis/ThreeEpochBottleneck_", i)
+  three_EpC_subdirectory <- paste0("../Analysis/ThreeEpochContraction_", i)
+  three_EpE_subdirectory <- paste0("../Analysis/ThreeEpochExpansion_", i)
+  sim_ooa_subdirectory <- paste0("../Analysis/ooa_simulated_", i)
+  EUR_1kg_subdirectory <- paste0("../Analysis/1kg_EUR_", i)
+  two_EpC_empirical_file_path = file.path(two_EpC_subdirectory, "syn_downsampled.log")
+  two_EpE_empirical_file_path = file.path(two_EpE_subdirectory, "syn_downsampled.log")
+  three_EpB_empirical_file_path = file.path(three_EpB_subdirectory, "syn_downsampled.log")
+  three_EpC_empirical_file_path = file.path(three_EpC_subdirectory, "syn_downsampled.log")
+  three_EpE_empirical_file_path = file.path(three_EpE_subdirectory, "syn_downsampled.log")
+  sim_ooa_empirical_file_path = file.path(sim_ooa_subdirectory, "syn_downsampled.log")
+  EUR_1kg_empirical_file_path = file.path(EUR_1kg_subdirectory, "syn_downsampled.log")
+  EVS_empirical_file_path = file.path(EUR_1kg_subdirectory, "nonsyn_downsampled.log")
+  
+  if (file.exists(two_EpC_empirical_file_path)) {
+    this_watterson_theta = watterson_theta_from_sfs(two_EpC_empirical_file_path)
+    this_heterozygosity = heterozygosity_from_sfs(two_EpC_empirical_file_path)
+    this_tajima_D = tajima_D_from_sfs(two_EpC_empirical_file_path)
+    two_EpC_watterson_theta = c(two_EpC_watterson_theta, this_watterson_theta)
+    two_EpC_heterozygosity = c(two_EpC_heterozygosity, this_heterozygosity)
+    two_EpC_tajima_D = c(two_EpC_tajima_D, this_tajima_D)
+  }
+  if (file.exists(two_EpE_empirical_file_path)) {
+    this_watterson_theta = watterson_theta_from_sfs(two_EpE_empirical_file_path)
+    this_heterozygosity = heterozygosity_from_sfs(two_EpE_empirical_file_path)
+    this_tajima_D = tajima_D_from_sfs(two_EpE_empirical_file_path)
+    two_EpE_watterson_theta = c(two_EpE_watterson_theta, this_watterson_theta)
+    two_EpE_heterozygosity = c(two_EpE_heterozygosity, this_heterozygosity)
+    two_EpE_tajima_D = c(two_EpE_tajima_D, this_tajima_D)
+  }
+  if (file.exists(three_EpB_empirical_file_path)) {
+    this_watterson_theta = watterson_theta_from_sfs(three_EpB_empirical_file_path)
+    this_heterozygosity = heterozygosity_from_sfs(three_EpB_empirical_file_path)
+    this_tajima_D = tajima_D_from_sfs(three_EpB_empirical_file_path)
+    three_EpB_watterson_theta = c(three_EpB_watterson_theta, this_watterson_theta)
+    three_EpB_heterozygosity = c(three_EpB_heterozygosity, this_heterozygosity)
+    three_EpB_tajima_D = c(three_EpB_tajima_D, this_tajima_D)
+  }
+  if (file.exists(three_EpC_empirical_file_path)) {
+    this_watterson_theta = watterson_theta_from_sfs(three_EpC_empirical_file_path)
+    this_heterozygosity = heterozygosity_from_sfs(three_EpC_empirical_file_path)
+    this_tajima_D = tajima_D_from_sfs(three_EpC_empirical_file_path)
+    three_EpC_watterson_theta = c(three_EpC_watterson_theta, this_watterson_theta)
+    three_EpC_heterozygosity = c(three_EpC_heterozygosity, this_heterozygosity)
+    three_EpC_tajima_D = c(three_EpC_tajima_D, this_tajima_D)
+  }
+  if (file.exists(three_EpE_empirical_file_path)) {
+    this_watterson_theta = watterson_theta_from_sfs(three_EpE_empirical_file_path)
+    this_heterozygosity = heterozygosity_from_sfs(three_EpE_empirical_file_path)
+    this_tajima_D = tajima_D_from_sfs(three_EpE_empirical_file_path)
+    three_EpE_watterson_theta = c(three_EpE_watterson_theta, this_watterson_theta)
+    three_EpE_heterozygosity = c(three_EpE_heterozygosity, this_heterozygosity)
+    three_EpE_tajima_D = c(three_EpE_tajima_D, this_tajima_D)
+  }
+  if (file.exists(sim_ooa_empirical_file_path)) {
+    this_watterson_theta = watterson_theta_from_sfs(sim_ooa_empirical_file_path)
+    this_heterozygosity = heterozygosity_from_sfs(sim_ooa_empirical_file_path)
+    this_tajima_D = tajima_D_from_sfs(sim_ooa_empirical_file_path)
+    sim_ooa_watterson_theta = c(sim_ooa_watterson_theta, this_watterson_theta)
+    sim_ooa_heterozygosity = c(sim_ooa_heterozygosity, this_heterozygosity)
+    sim_ooa_tajima_D = c(sim_ooa_tajima_D, this_tajima_D)
+  }
+  if (file.exists(EUR_1kg_empirical_file_path)) {
+    this_watterson_theta = watterson_theta_from_sfs(EUR_1kg_empirical_file_path)
+    this_heterozygosity = heterozygosity_from_sfs(EUR_1kg_empirical_file_path)
+    this_tajima_D = tajima_D_from_sfs(EUR_1kg_empirical_file_path)
+    EUR_1kg_watterson_theta = c(EUR_1kg_watterson_theta, this_watterson_theta)
+    EUR_1kg_heterozygosity = c(EUR_1kg_heterozygosity, this_heterozygosity)
+    EUR_1kg_tajima_D = c(EUR_1kg_tajima_D, this_tajima_D)
+  }
+  if (file.exists(EVS_empirical_file_path)) {
+    this_watterson_theta = watterson_theta_from_sfs(EVS_empirical_file_path)
+    this_heterozygosity = heterozygosity_from_sfs(EVS_empirical_file_path)
+    this_tajima_D = tajima_D_from_sfs(EVS_empirical_file_path)
+    EVS_watterson_theta = c(EVS_watterson_theta, this_watterson_theta)
+    EVS_heterozygosity = c(EVS_heterozygosity, this_heterozygosity)
+    EVS_tajima_D = c(EVS_tajima_D, this_tajima_D)
+  }
+}
+
+sample_size = seq(10, 800, 10)
+
+tajima_D_df = data.frame(
+  "Sample size" = sample_size,
+  "Two Epoch Contraction" = two_EpC_tajima_D,
+  "Two Epoch Expansion" = two_EpE_tajima_D,
+  "Three Epoch Bottleneck" = three_EpB_tajima_D,
+  "Three Epoch Contraction" = three_EpC_tajima_D,
+  "Three Epoch Expansion" = three_EpE_tajima_D,
+  "Simulated OOA" = sim_ooa_tajima_D,
+  "1KG EUR" = EUR_1kg_tajima_D)
+
+tajima_D_df = melt(tajima_D_df, id="Sample.size")
+
+plot_tajima_D = ggplot(tajima_D_df, aes(x=Sample.size, y=value, color=variable)) +
+  geom_line() +
+  scale_color_manual(values=c('red', 'blue', 'green', 'orange', 'lightblue', 'lightgreen', 'darkgreen'),
+    labels=c('Two Epoch Contraction', 'Two Epoch Expansion', 
+      'Three Epoch Bottleneck',
+      'Three Epoch Contraction',
+      'Three Epoch Expansion',
+      'Simulated EUR',
+      'Empirical EUR'),
+    name='Simulated Demography') +
+  theme_bw() +
+  xlab('Sample size') +
+  ylab("Tajima's D") +
+  ggtitle("Tajima's D by simulated demographic history")
+
+plot_tajima_D
+
+### Figure 3
+
+### Figure 4 Simulation summarizing figures
+
+best_fit_2EpC + theme(legend.position="none") +
+  best_fit_2EpE + 
+  best_fit_3EpC + theme(legend.position="none") +
+  best_fit_3EpE + theme(legend.position="none") +
+  plot_layout(nrow=2)
+
+### Figure 5 Three Epoch Bottleneck Demography
+
+ThreeEpochB_empirical_file_list = list()
+ThreeEpochB_one_epoch_file_list = list()
+ThreeEpochB_two_epoch_file_list = list()
+ThreeEpochB_three_epoch_file_list = list()
+ThreeEpochB_one_epoch_AIC = c()
+ThreeEpochB_one_epoch_LL = c()
+ThreeEpochB_one_epoch_theta = c()
+ThreeEpochB_one_epoch_allele_sum = c()
+ThreeEpochB_two_epoch_AIC = c()
+ThreeEpochB_two_epoch_LL = c()
+ThreeEpochB_two_epoch_theta = c()
+ThreeEpochB_two_epoch_nu = c()
+ThreeEpochB_two_epoch_tau = c()
+ThreeEpochB_two_epoch_allele_sum = c()
+ThreeEpochB_three_epoch_AIC = c()
+ThreeEpochB_three_epoch_LL = c()
+ThreeEpochB_three_epoch_theta = c()
+ThreeEpochB_three_epoch_nuB = c()
+ThreeEpochB_three_epoch_nuF = c()
+ThreeEpochB_three_epoch_tauB = c()
+ThreeEpochB_three_epoch_tauF = c()
+ThreeEpochB_three_epoch_allele_sum = c()
+
+
+# Loop through subdirectories and get relevant files
+for (i in c(10, 20, 30, 50, 100, 150, 200, 300, 500, 700)) {
+  subdirectory <- paste0("../Analysis/ThreeEpochBottleneck_", i)
+  ThreeEpochB_empirical_file_path <- file.path(subdirectory, "syn_downsampled_sfs.txt")
+  ThreeEpochB_one_epoch_file_path <- file.path(subdirectory, "one_epoch_demography.txt")
+  ThreeEpochB_two_epoch_file_path <- file.path(subdirectory, "two_epoch_demography.txt")
+  ThreeEpochB_three_epoch_file_path <- file.path(subdirectory, "three_epoch_demography.txt")
+  
+  # Check if the file exists before attempting to read and print its contents
+  if (file.exists(ThreeEpochB_empirical_file_path)) {
+    this_empirical_sfs = read_input_sfs(ThreeEpochB_empirical_file_path)
+    ThreeEpochB_empirical_file_list[[subdirectory]] = this_empirical_sfs
+  }
+  if (file.exists(ThreeEpochB_one_epoch_file_path)) {
+    this_one_epoch_sfs = sfs_from_demography(ThreeEpochB_one_epoch_file_path)
+    ThreeEpochB_one_epoch_file_list[[subdirectory]] = this_one_epoch_sfs
+    ThreeEpochB_one_epoch_AIC = c(ThreeEpochB_one_epoch_AIC, AIC_from_demography(ThreeEpochB_one_epoch_file_path))
+    ThreeEpochB_one_epoch_LL = c(ThreeEpochB_one_epoch_LL, LL_from_demography(ThreeEpochB_one_epoch_file_path))
+    ThreeEpochB_one_epoch_theta = c(ThreeEpochB_one_epoch_theta, theta_from_demography(ThreeEpochB_one_epoch_file_path))
+    ThreeEpochB_one_epoch_allele_sum = c(ThreeEpochB_one_epoch_allele_sum, sum(this_one_epoch_sfs))
+  }
+  if (file.exists(ThreeEpochB_two_epoch_file_path)) {
+    this_two_epoch_sfs = sfs_from_demography(ThreeEpochB_two_epoch_file_path)
+    ThreeEpochB_two_epoch_file_list[[subdirectory]] = this_two_epoch_sfs
+    ThreeEpochB_two_epoch_AIC = c(ThreeEpochB_two_epoch_AIC, AIC_from_demography(ThreeEpochB_two_epoch_file_path))
+    ThreeEpochB_two_epoch_LL = c(ThreeEpochB_two_epoch_LL, LL_from_demography(ThreeEpochB_two_epoch_file_path))
+    ThreeEpochB_two_epoch_theta = c(ThreeEpochB_two_epoch_theta, theta_from_demography(ThreeEpochB_two_epoch_file_path))
+    ThreeEpochB_two_epoch_nu = c(ThreeEpochB_two_epoch_nu, nu_from_demography(ThreeEpochB_two_epoch_file_path))
+    ThreeEpochB_two_epoch_tau = c(ThreeEpochB_two_epoch_tau, tau_from_demography(ThreeEpochB_two_epoch_file_path))
+    ThreeEpochB_two_epoch_allele_sum = c(ThreeEpochB_two_epoch_allele_sum, sum(this_two_epoch_sfs))
+  }
+  if (file.exists(ThreeEpochB_three_epoch_file_path)) {
+    this_three_epoch_sfs = sfs_from_demography(ThreeEpochB_three_epoch_file_path)
+    ThreeEpochB_three_epoch_file_list[[subdirectory]] = this_three_epoch_sfs
+    ThreeEpochB_three_epoch_AIC = c(ThreeEpochB_three_epoch_AIC, AIC_from_demography(ThreeEpochB_three_epoch_file_path))
+    ThreeEpochB_three_epoch_LL = c(ThreeEpochB_three_epoch_LL, LL_from_demography(ThreeEpochB_three_epoch_file_path))
+    ThreeEpochB_three_epoch_theta = c(ThreeEpochB_three_epoch_theta, theta_from_demography(ThreeEpochB_three_epoch_file_path))
+    ThreeEpochB_three_epoch_nuB = c(ThreeEpochB_three_epoch_nuB, nuB_from_demography(ThreeEpochB_three_epoch_file_path))
+    ThreeEpochB_three_epoch_nuF = c(ThreeEpochB_three_epoch_nuF, nuF_from_demography(ThreeEpochB_three_epoch_file_path))
+    ThreeEpochB_three_epoch_tauB = c(ThreeEpochB_three_epoch_tauB, tauB_from_demography(ThreeEpochB_three_epoch_file_path))
+    ThreeEpochB_three_epoch_tauF = c(ThreeEpochB_three_epoch_tauF, tauF_from_demography(ThreeEpochB_three_epoch_file_path))
+    ThreeEpochB_three_epoch_allele_sum = c(ThreeEpochB_three_epoch_allele_sum, sum(this_three_epoch_sfs))
+  }  
+}
+
+ThreeEpochB_AIC_df = data.frame(ThreeEpochB_one_epoch_AIC, ThreeEpochB_two_epoch_AIC, ThreeEpochB_three_epoch_AIC)
+# Reshape the data from wide to long format
+ThreeEpochB_df_long <- tidyr::gather(ThreeEpochB_AIC_df, key = "Epoch", value = "AIC", ThreeEpochB_one_epoch_AIC:ThreeEpochB_three_epoch_AIC)
+
+# Increase the x-axis index by 4
+ThreeEpochB_df_long$Index <- rep(c(10, 20, 30, 50, 100, 150, 200, 300, 500, 700), times = 3)
+
+# Create the line plot with ggplot2
+ggplot(ThreeEpochB_df_long, aes(x = Index, y = AIC, color = Epoch)) +
+  geom_line() +
+  geom_point() +
+  labs(title = "Simulated 3EpB AIC values by sample size",
+       x = "Sample Size",
+       y = "AIC") +
+  scale_y_log10() +
+  scale_x_continuous(breaks=ThreeEpochB_df_long$Index) +
+  scale_color_manual(values = c("blue", "green", "red"),
+    label=c('One-epoch', 'Three-epoch', 'Two-epoch')) +
+  theme_bw()
+
+ThreeEpochB_lambda_two_one = 2 * (ThreeEpochB_two_epoch_LL - ThreeEpochB_one_epoch_LL)
+ThreeEpochB_lambda_three_one = 2 * (ThreeEpochB_three_epoch_LL - ThreeEpochB_one_epoch_LL)
+ThreeEpochB_lambda_three_two = 2 * (ThreeEpochB_three_epoch_LL - ThreeEpochB_two_epoch_LL)
+
+ThreeEpochB_lambda_df = data.frame(ThreeEpochB_lambda_two_one, ThreeEpochB_lambda_three_one, ThreeEpochB_lambda_three_two)
+# Reshape the data from wide to long format
+ThreeEpochB_df_long_lambda <- tidyr::gather(ThreeEpochB_lambda_df, key = "Full_vs_Null", value = "Lambda", ThreeEpochB_lambda_two_one:ThreeEpochB_lambda_three_two)
+# Increase the x-axis index by 4
+ThreeEpochB_df_long_lambda$Index <- rep(c(10, 20, 30, 50, 100, 150, 200, 300, 500, 700), times = 3)
+
+# Create the line plot with ggplot2
+ggplot(ThreeEpochB_df_long_lambda, aes(x = Index, y = Lambda, color = Full_vs_Null)) +
+  geom_line() +
+  geom_point() +
+  labs(title = "Simulated 3EpB Lambda values by sample size",
+       x = "Sample Size",
+       y = "2 * Lambda") +
+  # scale_y_log10() +
+  scale_x_continuous(breaks=ThreeEpochB_df_long$Index) +
+  scale_color_manual(values = c("blue", "green", "red"),
+    label=c('Three vs. One', 'Three vs. Two', 'Two vs. One')) +
+  theme_bw()
+
+# Create the line plot with ggplot2
+ggplot(ThreeEpochB_df_long_lambda, aes(x = Index, y = Lambda, color = Full_vs_Null)) +
+  geom_line() +
+  geom_point() +
+  labs(title = "Simulated 3EpB Lambda values by sample size",
+       x = "Sample Size",
+       y = "2 * Lambda") +
+  # scale_y_log10() +
+  scale_x_continuous(breaks=ThreeEpochB_df_long$Index) +
+  scale_color_manual(values = c("blue", "green", "red"),
+    label=c('Three vs. One', 'Three vs. Two', 'Two vs. One')) +
+  theme_bw()
+
+ThreeEpochB_one_epoch_residual = c()
+ThreeEpochB_two_epoch_residual = c()
+ThreeEpochB_three_epoch_residual = c()
+
+for (i in 1:10) {
+  ThreeEpochB_one_epoch_residual = c(ThreeEpochB_one_epoch_residual, compute_residual(unlist(ThreeEpochB_empirical_file_list[i]), unlist(ThreeEpochB_one_epoch_file_list[i])))
+  ThreeEpochB_two_epoch_residual = c(ThreeEpochB_two_epoch_residual, compute_residual(unlist(ThreeEpochB_empirical_file_list[i]), unlist(ThreeEpochB_two_epoch_file_list[i])))
+  ThreeEpochB_three_epoch_residual = c(ThreeEpochB_three_epoch_residual, compute_residual(unlist(ThreeEpochB_empirical_file_list[i]), unlist(ThreeEpochB_three_epoch_file_list[i])))
+}
+
+ThreeEpochB_residual_df = data.frame(ThreeEpochB_one_epoch_residual, ThreeEpochB_two_epoch_residual, ThreeEpochB_three_epoch_residual)
+# Reshape the data from wide to long format
+ThreeEpochB_df_long_residual <- tidyr::gather(ThreeEpochB_residual_df, key = "Epoch", value = "residual", ThreeEpochB_one_epoch_residual:ThreeEpochB_three_epoch_residual)
+
+# Increase the x-axis index by 4
+ThreeEpochB_df_long_residual$Index <- rep(c(10, 20, 30, 50, 100, 150, 200, 300, 500, 700), times = 3)
+
+# Create the line plot with ggplot2
+ggplot(ThreeEpochB_df_long_residual, aes(x = Index, y = residual, color = Epoch)) +
+  geom_line() +
+  geom_point() +
+  labs(title = "3EpB residual values by sample size",
+       x = "Sample Size",
+       y = "Residual") +
+  scale_y_log10() +
+  scale_x_continuous(breaks=ThreeEpochB_df_long$Index) +
+  scale_color_manual(values = c("blue", "green", "red"),
+    label=c('One-epoch', 'Three-epoch', 'Two-epoch')) +
+  theme_bw()
+
+ggplot(ThreeEpochB_df_long, aes(x = Index, y = AIC, color = Epoch)) +
+  geom_line(linetype=3) +
+  geom_point() +
+  labs(title = "Simulated 3EpB AIC and residual by sample size",
+       x = "Sample Size",
+       y = "AIC") +
+  scale_y_log10(sec.axis = sec_axis(~.*1, name="Residual")) +
+  scale_x_continuous(breaks=ThreeEpochB_df_long$Index) +
+  geom_line(data=ThreeEpochB_df_long_residual, aes(x = Index, y = residual*1, color = Epoch)) +
+  scale_color_manual(values = c("blue", "orange", "green", "violet", "red", "seagreen"),
+    label=c('One-epoch AIC', 'One-epoch residual',
+      'Three-epoch AIC', 'Three-epoch residual',
+      'Two-epoch AIC', 'Two-epoch residual')) +
+  theme_bw()
+
+# Tennessen_3EpB population genetic constants
+
+ThreeEpochB_mu = 1.5E-8
+
+# NAnc = theta / (4 * allele_sum * mu)
+# generations = 2 * tau * theta / (4 * mu * allele_sum)
+# years = generations / 365
+# NCurr = nu * NAnc
+# generations_b = 2 * tauB * theta / (4 * mu * allele_sum)
+# generations_f = 2 * tauF * theta / (4 * mu * allele_sum)
+# NBottle = nuB * NAnc
+# NSince = nuF * NAnc
+
+ThreeEpochB_one_epoch_NAnc = ThreeEpochB_one_epoch_theta / (4 * ThreeEpochB_one_epoch_allele_sum * ThreeEpochB_mu)
+ThreeEpochB_two_epoch_NAnc = ThreeEpochB_two_epoch_theta / (4 * ThreeEpochB_two_epoch_allele_sum * ThreeEpochB_mu)
+ThreeEpochB_two_epoch_NCurr = ThreeEpochB_two_epoch_nu * ThreeEpochB_two_epoch_NAnc
+ThreeEpochB_two_epoch_Time = 2 * 25 * ThreeEpochB_two_epoch_tau * ThreeEpochB_two_epoch_theta / (4 * ThreeEpochB_mu * ThreeEpochB_two_epoch_allele_sum)
+ThreeEpochB_three_epoch_NAnc = ThreeEpochB_three_epoch_theta / (4 * ThreeEpochB_three_epoch_allele_sum * ThreeEpochB_mu)
+ThreeEpochB_three_epoch_NBottle = ThreeEpochB_three_epoch_nuB * ThreeEpochB_three_epoch_NAnc
+ThreeEpochB_three_epoch_NCurr = ThreeEpochB_three_epoch_nuF * ThreeEpochB_three_epoch_NAnc
+ThreeEpochB_three_epoch_TimeBottleEnd = 2 * 25 * ThreeEpochB_three_epoch_tauF * ThreeEpochB_three_epoch_theta / (4 * ThreeEpochB_mu * ThreeEpochB_three_epoch_allele_sum)
+ThreeEpochB_three_epoch_TimeBottleStart = 2 * 25 * ThreeEpochB_three_epoch_tauB * ThreeEpochB_three_epoch_theta / (4 * ThreeEpochB_mu * ThreeEpochB_three_epoch_allele_sum) + ThreeEpochB_three_epoch_TimeBottleEnd
+ThreeEpochB_three_epoch_TimeTotal = ThreeEpochB_three_epoch_TimeBottleStart + ThreeEpochB_three_epoch_TimeBottleEnd
+
+# two_epoch_max_time = max(ThreeEpochB_two_epoch_Time)
+# three_epoch_max_time = max(ThreeEpochB_three_epoch_TimeBottleStart)
+# three_epoch_max_time = 10872124400
+three_epoch_max_time = 602651335 + 1
+two_epoch_max_time = 602651335 + 1
+ThreeEpochB_two_epoch_max_time = rep(two_epoch_max_time, 10)
+# ThreeEpochB_two_epoch_max_time = rep(2E4, 10)
+ThreeEpochB_two_epoch_current_time = rep(0, 10)
+ThreeEpochB_two_epoch_demography = data.frame(ThreeEpochB_two_epoch_NAnc, ThreeEpochB_two_epoch_max_time, 
+  ThreeEpochB_two_epoch_NCurr, ThreeEpochB_two_epoch_Time, 
+  ThreeEpochB_two_epoch_NCurr, ThreeEpochB_two_epoch_current_time)
+
+# ThreeEpochB_three_epoch_max_time = rep(100000000, 10)
+# ThreeEpochB_three_epoch_max_time = rep(5E6, 10)
+ThreeEpochB_three_epoch_max_time = rep(three_epoch_max_time, 10)
+ThreeEpochB_three_epoch_current_time = rep(0, 10)
+ThreeEpochB_three_epoch_demography = data.frame(ThreeEpochB_three_epoch_NAnc, ThreeEpochB_three_epoch_max_time,
+  ThreeEpochB_three_epoch_NBottle, ThreeEpochB_three_epoch_TimeBottleStart,
+  ThreeEpochB_three_epoch_NCurr, ThreeEpochB_three_epoch_TimeBottleEnd,
+  ThreeEpochB_three_epoch_NCurr, ThreeEpochB_three_epoch_current_time)
+
+ThreeEpochB_two_epoch_NEffective_10 = c(ThreeEpochB_two_epoch_demography[1, 1], ThreeEpochB_two_epoch_demography[1, 3], ThreeEpochB_two_epoch_demography[1, 5])
+ThreeEpochB_two_epoch_Time_10 = c(-ThreeEpochB_two_epoch_demography[1, 2], -ThreeEpochB_two_epoch_demography[1, 4], ThreeEpochB_two_epoch_demography[1, 6])
+ThreeEpochB_two_epoch_demography_10 = data.frame(ThreeEpochB_two_epoch_Time_10, ThreeEpochB_two_epoch_NEffective_10)
+ThreeEpochB_two_epoch_NEffective_20 = c(ThreeEpochB_two_epoch_demography[2, 1], ThreeEpochB_two_epoch_demography[2, 3], ThreeEpochB_two_epoch_demography[2, 5])
+ThreeEpochB_two_epoch_Time_20 = c(-ThreeEpochB_two_epoch_demography[2, 2], -ThreeEpochB_two_epoch_demography[2, 4], ThreeEpochB_two_epoch_demography[2, 6])
+ThreeEpochB_two_epoch_demography_20 = data.frame(ThreeEpochB_two_epoch_Time_20, ThreeEpochB_two_epoch_NEffective_20)
+ThreeEpochB_two_epoch_NEffective_30 = c(ThreeEpochB_two_epoch_demography[3, 1], ThreeEpochB_two_epoch_demography[3, 3], ThreeEpochB_two_epoch_demography[3, 5])
+ThreeEpochB_two_epoch_Time_30 = c(-ThreeEpochB_two_epoch_demography[3, 2], -ThreeEpochB_two_epoch_demography[3, 4], ThreeEpochB_two_epoch_demography[3, 6])
+ThreeEpochB_two_epoch_demography_30 = data.frame(ThreeEpochB_two_epoch_Time_30, ThreeEpochB_two_epoch_NEffective_30)
+ThreeEpochB_two_epoch_NEffective_50 = c(ThreeEpochB_two_epoch_demography[4, 1], ThreeEpochB_two_epoch_demography[4, 3], ThreeEpochB_two_epoch_demography[4, 5])
+ThreeEpochB_two_epoch_Time_50 = c(-ThreeEpochB_two_epoch_demography[4, 2], -ThreeEpochB_two_epoch_demography[4, 4], ThreeEpochB_two_epoch_demography[4, 6])
+ThreeEpochB_two_epoch_demography_50 = data.frame(ThreeEpochB_two_epoch_Time_50, ThreeEpochB_two_epoch_NEffective_50)
+ThreeEpochB_two_epoch_NEffective_100 = c(ThreeEpochB_two_epoch_demography[5, 1], ThreeEpochB_two_epoch_demography[5, 3], ThreeEpochB_two_epoch_demography[5, 5])
+ThreeEpochB_two_epoch_Time_100 = c(-ThreeEpochB_two_epoch_demography[5, 2], -ThreeEpochB_two_epoch_demography[5, 4], ThreeEpochB_two_epoch_demography[5, 6])
+ThreeEpochB_two_epoch_demography_100 = data.frame(ThreeEpochB_two_epoch_Time_100, ThreeEpochB_two_epoch_NEffective_100)
+ThreeEpochB_two_epoch_NEffective_150 = c(ThreeEpochB_two_epoch_demography[6, 1], ThreeEpochB_two_epoch_demography[6, 3], ThreeEpochB_two_epoch_demography[6, 5])
+ThreeEpochB_two_epoch_Time_150 = c(-ThreeEpochB_two_epoch_demography[6, 2], -ThreeEpochB_two_epoch_demography[6, 4], ThreeEpochB_two_epoch_demography[6, 6])
+ThreeEpochB_two_epoch_demography_150 = data.frame(ThreeEpochB_two_epoch_Time_150, ThreeEpochB_two_epoch_NEffective_150)
+ThreeEpochB_two_epoch_NEffective_200 = c(ThreeEpochB_two_epoch_demography[7, 1], ThreeEpochB_two_epoch_demography[7, 3], ThreeEpochB_two_epoch_demography[7, 5])
+ThreeEpochB_two_epoch_Time_200 = c(-ThreeEpochB_two_epoch_demography[7, 2], -ThreeEpochB_two_epoch_demography[7, 4], ThreeEpochB_two_epoch_demography[7, 6])
+ThreeEpochB_two_epoch_demography_200 = data.frame(ThreeEpochB_two_epoch_Time_200, ThreeEpochB_two_epoch_NEffective_200)
+ThreeEpochB_two_epoch_NEffective_300 = c(ThreeEpochB_two_epoch_demography[8, 1], ThreeEpochB_two_epoch_demography[8, 3], ThreeEpochB_two_epoch_demography[8, 5])
+ThreeEpochB_two_epoch_Time_300 = c(-ThreeEpochB_two_epoch_demography[8, 2], -ThreeEpochB_two_epoch_demography[8, 4], ThreeEpochB_two_epoch_demography[8, 6])
+ThreeEpochB_two_epoch_demography_300 = data.frame(ThreeEpochB_two_epoch_Time_300, ThreeEpochB_two_epoch_NEffective_300)
+ThreeEpochB_two_epoch_NEffective_500 = c(ThreeEpochB_two_epoch_demography[9, 1], ThreeEpochB_two_epoch_demography[9, 3], ThreeEpochB_two_epoch_demography[9, 5])
+ThreeEpochB_two_epoch_Time_500 = c(-ThreeEpochB_two_epoch_demography[9, 2], -ThreeEpochB_two_epoch_demography[9, 4], ThreeEpochB_two_epoch_demography[9, 6])
+ThreeEpochB_two_epoch_demography_500 = data.frame(ThreeEpochB_two_epoch_Time_500, ThreeEpochB_two_epoch_NEffective_500)
+ThreeEpochB_two_epoch_NEffective_700 = c(ThreeEpochB_two_epoch_demography[10, 1], ThreeEpochB_two_epoch_demography[10, 3], ThreeEpochB_two_epoch_demography[10, 5])
+ThreeEpochB_two_epoch_Time_700 = c(-ThreeEpochB_two_epoch_demography[10, 2], -ThreeEpochB_two_epoch_demography[10, 4], ThreeEpochB_two_epoch_demography[10, 6])
+ThreeEpochB_two_epoch_demography_700 = data.frame(ThreeEpochB_two_epoch_Time_700, ThreeEpochB_two_epoch_NEffective_700)
+
+ThreeEpochB_three_epoch_NEffective_10 = c(ThreeEpochB_three_epoch_demography[1, 1], ThreeEpochB_three_epoch_demography[1, 3], ThreeEpochB_three_epoch_demography[1, 5], ThreeEpochB_three_epoch_demography[1, 7])
+ThreeEpochB_three_epoch_Time_10 = c(-ThreeEpochB_three_epoch_demography[1, 2], -ThreeEpochB_three_epoch_demography[1, 4], -ThreeEpochB_three_epoch_demography[1, 6], ThreeEpochB_three_epoch_demography[1, 8])
+ThreeEpochB_three_epoch_demography_10 = data.frame(ThreeEpochB_three_epoch_Time_10, ThreeEpochB_three_epoch_NEffective_10)
+ThreeEpochB_three_epoch_NEffective_20 = c(ThreeEpochB_three_epoch_demography[2, 1], ThreeEpochB_three_epoch_demography[2, 3], ThreeEpochB_three_epoch_demography[2, 5], ThreeEpochB_three_epoch_demography[2, 7])
+ThreeEpochB_three_epoch_Time_20 = c(-ThreeEpochB_three_epoch_demography[2, 2], -ThreeEpochB_three_epoch_demography[2, 4], -ThreeEpochB_three_epoch_demography[2, 6], ThreeEpochB_three_epoch_demography[2, 8])
+ThreeEpochB_three_epoch_demography_20 = data.frame(ThreeEpochB_three_epoch_Time_20, ThreeEpochB_three_epoch_NEffective_20)
+ThreeEpochB_three_epoch_NEffective_30 = c(ThreeEpochB_three_epoch_demography[3, 1], ThreeEpochB_three_epoch_demography[3, 3], ThreeEpochB_three_epoch_demography[3, 5], ThreeEpochB_three_epoch_demography[3, 7])
+ThreeEpochB_three_epoch_Time_30 = c(-ThreeEpochB_three_epoch_demography[3, 2], -ThreeEpochB_three_epoch_demography[3, 4], -ThreeEpochB_three_epoch_demography[3, 6], ThreeEpochB_three_epoch_demography[3, 8])
+ThreeEpochB_three_epoch_demography_30 = data.frame(ThreeEpochB_three_epoch_Time_30, ThreeEpochB_three_epoch_NEffective_30)
+ThreeEpochB_three_epoch_NEffective_50 = c(ThreeEpochB_three_epoch_demography[4, 1], ThreeEpochB_three_epoch_demography[4, 3], ThreeEpochB_three_epoch_demography[4, 5], ThreeEpochB_three_epoch_demography[4, 7])
+ThreeEpochB_three_epoch_Time_50 = c(-ThreeEpochB_three_epoch_demography[4, 2], -ThreeEpochB_three_epoch_demography[4, 4], -ThreeEpochB_three_epoch_demography[4, 6], ThreeEpochB_three_epoch_demography[4, 8])
+ThreeEpochB_three_epoch_demography_50 = data.frame(ThreeEpochB_three_epoch_Time_50, ThreeEpochB_three_epoch_NEffective_50)
+ThreeEpochB_three_epoch_NEffective_100 = c(ThreeEpochB_three_epoch_demography[5, 1], ThreeEpochB_three_epoch_demography[5, 3], ThreeEpochB_three_epoch_demography[5, 5], ThreeEpochB_three_epoch_demography[5, 7])
+ThreeEpochB_three_epoch_Time_100 = c(-ThreeEpochB_three_epoch_demography[5, 2], -ThreeEpochB_three_epoch_demography[5, 4], -ThreeEpochB_three_epoch_demography[5, 6], ThreeEpochB_three_epoch_demography[5, 8])
+ThreeEpochB_three_epoch_demography_100 = data.frame(ThreeEpochB_three_epoch_Time_100, ThreeEpochB_three_epoch_NEffective_100)
+ThreeEpochB_three_epoch_NEffective_150 = c(ThreeEpochB_three_epoch_demography[6, 1], ThreeEpochB_three_epoch_demography[6, 3], ThreeEpochB_three_epoch_demography[6, 5], ThreeEpochB_three_epoch_demography[6, 7])
+ThreeEpochB_three_epoch_Time_150 = c(-ThreeEpochB_three_epoch_demography[6, 2], -ThreeEpochB_three_epoch_demography[6, 4], -ThreeEpochB_three_epoch_demography[6, 6], ThreeEpochB_three_epoch_demography[6, 8])
+ThreeEpochB_three_epoch_demography_150 = data.frame(ThreeEpochB_three_epoch_Time_150, ThreeEpochB_three_epoch_NEffective_150)
+ThreeEpochB_three_epoch_NEffective_200 = c(ThreeEpochB_three_epoch_demography[7, 1], ThreeEpochB_three_epoch_demography[7, 3], ThreeEpochB_three_epoch_demography[7, 5], ThreeEpochB_three_epoch_demography[7, 7])
+ThreeEpochB_three_epoch_Time_200 = c(-ThreeEpochB_three_epoch_demography[7, 2], -ThreeEpochB_three_epoch_demography[7, 4], -ThreeEpochB_three_epoch_demography[7, 6], ThreeEpochB_three_epoch_demography[7, 8])
+ThreeEpochB_three_epoch_demography_200 = data.frame(ThreeEpochB_three_epoch_Time_200, ThreeEpochB_three_epoch_NEffective_200)
+ThreeEpochB_three_epoch_NEffective_300 = c(ThreeEpochB_three_epoch_demography[8, 1], ThreeEpochB_three_epoch_demography[8, 3], ThreeEpochB_three_epoch_demography[8, 5], ThreeEpochB_three_epoch_demography[8, 7])
+ThreeEpochB_three_epoch_Time_300 = c(-ThreeEpochB_three_epoch_demography[8, 2], -ThreeEpochB_three_epoch_demography[8, 4], -ThreeEpochB_three_epoch_demography[8, 6], ThreeEpochB_three_epoch_demography[8, 8])
+ThreeEpochB_three_epoch_demography_300 = data.frame(ThreeEpochB_three_epoch_Time_300, ThreeEpochB_three_epoch_NEffective_300)
+ThreeEpochB_three_epoch_NEffective_500 = c(ThreeEpochB_three_epoch_demography[9, 1], ThreeEpochB_three_epoch_demography[9, 3], ThreeEpochB_three_epoch_demography[9, 5], ThreeEpochB_three_epoch_demography[9, 7])
+ThreeEpochB_three_epoch_Time_500 = c(-ThreeEpochB_three_epoch_demography[9, 2], -ThreeEpochB_three_epoch_demography[9, 4], -ThreeEpochB_three_epoch_demography[9, 6], ThreeEpochB_three_epoch_demography[9, 8])
+ThreeEpochB_three_epoch_demography_500 = data.frame(ThreeEpochB_three_epoch_Time_500, ThreeEpochB_three_epoch_NEffective_500)
+ThreeEpochB_three_epoch_NEffective_700 = c(ThreeEpochB_three_epoch_demography[10, 1], ThreeEpochB_three_epoch_demography[10, 3], ThreeEpochB_three_epoch_demography[10, 5], ThreeEpochB_three_epoch_demography[10, 7])
+ThreeEpochB_three_epoch_Time_700 = c(-ThreeEpochB_three_epoch_demography[10, 2], -ThreeEpochB_three_epoch_demography[10, 4], -ThreeEpochB_three_epoch_demography[10, 6], ThreeEpochB_three_epoch_demography[10, 8])
+ThreeEpochB_three_epoch_demography_700 = data.frame(ThreeEpochB_three_epoch_Time_700, ThreeEpochB_three_epoch_NEffective_700)
+
+ggplot(ThreeEpochB_two_epoch_demography_10, aes(ThreeEpochB_two_epoch_Time_10, ThreeEpochB_two_epoch_NEffective_10, color='N=10')) + geom_step(linewidth=1, linetype='dotted') + 
+  geom_step(data=ThreeEpochB_two_epoch_demography_20, aes(ThreeEpochB_two_epoch_Time_20, ThreeEpochB_two_epoch_NEffective_20, color='N=20'), linewidth=1, linetype='dotted') +
+  geom_step(data=ThreeEpochB_two_epoch_demography_30, aes(ThreeEpochB_two_epoch_Time_30, ThreeEpochB_two_epoch_NEffective_30, color='N=30'), linewidth=1, linetype='dotted') +
+  geom_step(data=ThreeEpochB_two_epoch_demography_50, aes(ThreeEpochB_two_epoch_Time_50, ThreeEpochB_two_epoch_NEffective_50, color='N=50'), linewidth=1, linetype='dotted') +
+  geom_step(data=ThreeEpochB_two_epoch_demography_100, aes(ThreeEpochB_two_epoch_Time_100, ThreeEpochB_two_epoch_NEffective_100, color='N=100'), linewidth=1, linetype='dotted') +
+  geom_step(data=ThreeEpochB_two_epoch_demography_150, aes(ThreeEpochB_two_epoch_Time_150, ThreeEpochB_two_epoch_NEffective_150, color='N=150'), linewidth=1, linetype='dotted') +
+  geom_step(data=ThreeEpochB_two_epoch_demography_200, aes(ThreeEpochB_two_epoch_Time_200, ThreeEpochB_two_epoch_NEffective_200, color='N=200'), linewidth=1, linetype='dotted') +
+  geom_step(data=ThreeEpochB_two_epoch_demography_300, aes(ThreeEpochB_two_epoch_Time_300, ThreeEpochB_two_epoch_NEffective_300, color='N=300'), linewidth=1, linetype='dotted') +
+  geom_step(data=ThreeEpochB_two_epoch_demography_500, aes(ThreeEpochB_two_epoch_Time_500, ThreeEpochB_two_epoch_NEffective_500, color='N=500'), linewidth=1, linetype='dotted') +
+  geom_step(data=ThreeEpochB_two_epoch_demography_700, aes(ThreeEpochB_two_epoch_Time_700, ThreeEpochB_two_epoch_NEffective_700, color='N=700'), linewidth=1, linetype='dotted') +
+  scale_color_manual(name='Sample Size',
+                     breaks=c('N=10', 'N=20', 'N=30', 'N=50', 'N=100', 'N=150', 'N=200', 'N=300', 'N=500', 'N=700'),
+                     values=c('N=10'='#7f3b08',
+                       'N=20'='#b35806',
+                       'N=30'='#e08250',
+                       'N=50'='#fdb863',
+                       'N=100'='#fee0b6',
+                       'N=150'='#d8daeb',
+                       'N=200'='#b2abd2',
+                       'N=300'='#8073ac',
+                       'N=500'='#542788',
+                       'N=700'='#2d004b')) +
+  theme_bw() +
+  ylab('Effective Population Size') +
+  xlab('Time in Years') +
+  ggtitle('Simulated 3EpB two Epoch Demography')
+
+ggplot(ThreeEpochB_two_epoch_demography_10, aes(ThreeEpochB_two_epoch_Time_10, ThreeEpochB_two_epoch_NEffective_10, color='N=10')) + geom_step(linewidth=1, linetype='dashed') + 
+  # geom_step(data=ThreeEpochB_two_epoch_demography_20, aes(ThreeEpochB_two_epoch_Time_20, ThreeEpochB_two_epoch_NEffective_20, color='N=20'), linewidth=1, linetype='dashed') +
+  # geom_step(data=ThreeEpochB_two_epoch_demography_30, aes(ThreeEpochB_two_epoch_Time_30, ThreeEpochB_two_epoch_NEffective_30, color='N=30'), linewidth=1, linetype='dashed') +
+  # geom_step(data=ThreeEpochB_two_epoch_demography_50, aes(ThreeEpochB_two_epoch_Time_50, ThreeEpochB_two_epoch_NEffective_50, color='N=50'), linewidth=1, linetype='dashed') +
+  # geom_step(data=ThreeEpochB_two_epoch_demography_100, aes(ThreeEpochB_two_epoch_Time_100, ThreeEpochB_two_epoch_NEffective_100, color='N=100'), linewidth=1, linetype='dashed') +
+  # geom_step(data=ThreeEpochB_two_epoch_demography_150, aes(ThreeEpochB_two_epoch_Time_150, ThreeEpochB_two_epoch_NEffective_150, color='N=150'), linewidth=1, linetype='dashed') +
+  # geom_step(data=ThreeEpochB_two_epoch_demography_200, aes(ThreeEpochB_two_epoch_Time_200, ThreeEpochB_two_epoch_NEffective_200, color='N=200'), linewidth=1, linetype='dashed') +
+  # geom_step(data=ThreeEpochB_two_epoch_demography_300, aes(ThreeEpochB_two_epoch_Time_300, ThreeEpochB_two_epoch_NEffective_300, color='N=300'), linewidth=1, linetype='dashed') +
+  # geom_step(data=ThreeEpochB_two_epoch_demography_500, aes(ThreeEpochB_two_epoch_Time_500, ThreeEpochB_two_epoch_NEffective_500, color='N=500'), linewidth=1, linetype='dashed') +
+  # geom_step(data=ThreeEpochB_two_epoch_demography_700, aes(ThreeEpochB_two_epoch_Time_700, ThreeEpochB_two_epoch_NEffective_700, color='N=700'), linewidth=1, linetype='dashed') +
+  # geom_step(data=ThreeEpochB_three_epoch_demography_10, aes(ThreeEpochB_three_epoch_Time_10, ThreeEpochB_three_epoch_NEffective_10, color='N=10'), linewidth=1, linetype='solid') +
+  geom_step(data=ThreeEpochB_three_epoch_demography_20, aes(ThreeEpochB_three_epoch_Time_20, ThreeEpochB_three_epoch_NEffective_20, color='N=20'), linewidth=1, linetype='solid') +
+  geom_step(data=ThreeEpochB_three_epoch_demography_30, aes(ThreeEpochB_three_epoch_Time_30, ThreeEpochB_three_epoch_NEffective_30, color='N=30'), linewidth=1, linetype='solid') +
+  geom_step(data=ThreeEpochB_three_epoch_demography_50, aes(ThreeEpochB_three_epoch_Time_50, ThreeEpochB_three_epoch_NEffective_50, color='N=50'), linewidth=1, linetype='solid') +
+  geom_step(data=ThreeEpochB_three_epoch_demography_100, aes(ThreeEpochB_three_epoch_Time_100, ThreeEpochB_three_epoch_NEffective_100, color='N=100'), linewidth=1, linetype='solid') +
+  geom_step(data=ThreeEpochB_three_epoch_demography_150, aes(ThreeEpochB_three_epoch_Time_150, ThreeEpochB_three_epoch_NEffective_150, color='N=150'), linewidth=1, linetype='solid') +
+  # geom_step(data=ThreeEpochB_three_epoch_demography_200, aes(ThreeEpochB_three_epoch_Time_200, ThreeEpochB_three_epoch_NEffective_200, color='N=200'), linewidth=1, linetype='solid') +
+  geom_step(data=ThreeEpochB_three_epoch_demography_300, aes(ThreeEpochB_three_epoch_Time_300, ThreeEpochB_three_epoch_NEffective_300, color='N=300'), linewidth=1, linetype='solid') +
+  geom_step(data=ThreeEpochB_three_epoch_demography_500, aes(ThreeEpochB_three_epoch_Time_500, ThreeEpochB_three_epoch_NEffective_500, color='N=500'), linewidth=1, linetype='solid') +
+  geom_step(data=ThreeEpochB_three_epoch_demography_700, aes(ThreeEpochB_three_epoch_Time_700, ThreeEpochB_three_epoch_NEffective_700, color='N=700'), linewidth=1, linetype='solid') +
+  scale_color_manual(name='Sample Size',
+                     breaks=c('N=10', 'N=20', 'N=30', 'N=50', 'N=100', 'N=150', 'N=200', 'N=300', 'N=500', 'N=700'),
+                     values=c('N=10'='#7f3b08',
+                       'N=20'='#b35806',
+                       'N=30'='#e08250',
+                       'N=50'='#fdb863',
+                       'N=100'='#fee0b6',
+                       'N=150'='#d8daeb',
+                       'N=200'='#b2abd2',
+                       'N=300'='#8073ac',
+                       'N=500'='#542788',
+                       'N=700'='#2d004b')) +
+  theme_bw() +
+  ylab('Effective Population Size') +
+  xlab('Time in Years') +
+  ggtitle('Simulated 3EpB Best-fitting Demography')
+
+ggplot(ThreeEpochB_three_epoch_demography_10, aes(ThreeEpochB_three_epoch_Time_10, ThreeEpochB_three_epoch_NEffective_10, color='N=10')) + geom_step(linewidth=1, linetype='solid') + 
+  geom_step(data=ThreeEpochB_three_epoch_demography_20, aes(ThreeEpochB_three_epoch_Time_20, ThreeEpochB_three_epoch_NEffective_20, color='N=20'), linewidth=1, linetype='solid') +
+  geom_step(data=ThreeEpochB_three_epoch_demography_30, aes(ThreeEpochB_three_epoch_Time_30, ThreeEpochB_three_epoch_NEffective_30, color='N=30'), linewidth=1, linetype='solid') +
+  geom_step(data=ThreeEpochB_three_epoch_demography_50, aes(ThreeEpochB_three_epoch_Time_50, ThreeEpochB_three_epoch_NEffective_50, color='N=50'), linewidth=1, linetype='solid') +
+  geom_step(data=ThreeEpochB_three_epoch_demography_100, aes(ThreeEpochB_three_epoch_Time_100, ThreeEpochB_three_epoch_NEffective_100, color='N=100'), linewidth=1, linetype='solid') +
+  geom_step(data=ThreeEpochB_three_epoch_demography_150, aes(ThreeEpochB_three_epoch_Time_150, ThreeEpochB_three_epoch_NEffective_150, color='N=150'), linewidth=1, linetype='solid') +
+  # geom_step(data=ThreeEpochB_three_epoch_demography_200, aes(ThreeEpochB_three_epoch_Time_200, ThreeEpochB_three_epoch_NEffective_200, color='N=200'), linewidth=1, linetype='solid') +
+  geom_step(data=ThreeEpochB_three_epoch_demography_300, aes(ThreeEpochB_three_epoch_Time_300, ThreeEpochB_three_epoch_NEffective_300, color='N=300'), linewidth=1, linetype='solid') +
+  geom_step(data=ThreeEpochB_three_epoch_demography_500, aes(ThreeEpochB_three_epoch_Time_500, ThreeEpochB_three_epoch_NEffective_500, color='N=500'), linewidth=1, linetype='solid') +
+  geom_step(data=ThreeEpochB_three_epoch_demography_700, aes(ThreeEpochB_three_epoch_Time_700, ThreeEpochB_three_epoch_NEffective_700, color='N=700'), linewidth=1, linetype='solid') +
+  scale_color_manual(name='Sample Size',
+                     breaks=c('N=10', 'N=20', 'N=30', 'N=50', 'N=100', 'N=150', 'N=200', 'N=300', 'N=500', 'N=700'),
+                     values=c('N=10'='#7f3b08',
+                       'N=20'='#b35806',
+                       'N=30'='#e08250',
+                       'N=50'='#fdb863',
+                       'N=100'='#fee0b6',
+                       'N=150'='#d8daeb',
+                       'N=200'='#b2abd2',
+                       'N=300'='#8073ac',
+                       'N=500'='#542788',
+                       'N=700'='#2d004b')) +
+  theme_bw() +
+  ylab('Effective Population Size') +
+  xlab('Time in Years') +
+  ggtitle('Simulated 3EpB Three Epoch Demography')
+
+
+# NAnc Estimate by Sample Size
+sample_size = c(10, 20, 30, 50, 100, 150, 200, 300, 500, 700)
+
+NAnc_df = data.frame(sample_size, ThreeEpochB_one_epoch_NAnc, ThreeEpochB_two_epoch_NAnc, ThreeEpochB_three_epoch_NAnc)
+NAnc_df = melt(NAnc_df, id='sample_size')
+
+ggplot(data=NAnc_df, aes(x=sample_size, y=value, color=variable)) + geom_line() +
+  xlab('Sample size') +
+  ylab('Estimated ancestral effective population size') +
+  ggtitle('Simulated 3EpB NAnc by sample size') +
+  theme_bw() +
+  guides(color=guide_legend(title="Epoch")) +
+  scale_color_manual(
+    labels=c('One-epoch', 'Two-epoch', 'Three-epoch'),
+    values=c('red', 'blue', 'green')) +
+  geom_hline(yintercept=30378, color='black', linetype='dashed') +
+  scale_x_continuous(breaks=sample_size)
+  
